@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bulk URL Opener</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 350px;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Bulk URL Opener</h1>
+
+    <textarea id="urlBox" placeholder="Paste URLs here, one URL per line..."></textarea>
+
+    <button onclick="openAllUrls()">Open All URLs</button>
+
+    <div class="note">
+      • Paste one URL per line.<br>
+      • Browser may ask permission to allow multiple tabs/popups.<br>
+      • If URL does not contain http/https, https:// will be added automatically.
+    </div>
+  </div>
+
+  <script>
+    function openAllUrls() {
+      const text = document.getElementById('urlBox').value;
+
+      const urls = text
+        .split('\n')
+        .map(url => url.trim())
+        .filter(url => url.length > 0);
+
+      if (urls.length === 0) {
+        alert('Please paste at least one URL.');
+        return;
+      }
+
+      urls.forEach(url => {
+        let finalUrl = url;
+
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+          finalUrl = 'https://' + url;
+        }
+
+        window.open(finalUrl, '_blank');
+      });
+    }
+  </script>
+
+</body>
+</html>
