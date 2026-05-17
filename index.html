@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bulk URL Opener</title>
 
   <style>
@@ -20,10 +20,10 @@
     .container {
       max-width: 800px;
       margin: auto;
-      background: white;
+      background: #ffffff;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     h1 {
@@ -33,33 +33,52 @@
 
     textarea {
       width: 100%;
-      height: 350px;
+      height: 300px;
       padding: 12px;
-      font-size: 15px;
       border: 1px solid #ccc;
       border-radius: 8px;
+      font-size: 15px;
       resize: vertical;
     }
 
     button {
       margin-top: 15px;
       padding: 12px 20px;
-      font-size: 16px;
       border: none;
       border-radius: 8px;
-      cursor: pointer;
       background: #007bff;
       color: white;
+      font-size: 16px;
+      cursor: pointer;
     }
 
     button:hover {
       background: #0056b3;
     }
 
+    #linksContainer {
+      margin-top: 20px;
+    }
+
+    .url-link {
+      display: block;
+      margin-bottom: 10px;
+      padding: 12px;
+      background: #f1f1f1;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #000;
+      word-break: break-all;
+    }
+
+    .url-link:hover {
+      background: #e2e2e2;
+    }
+
     .note {
-      margin-top: 15px;
-      font-size: 14px;
+      margin-top: 20px;
       color: #555;
+      font-size: 14px;
       line-height: 1.5;
     }
   </style>
@@ -69,16 +88,16 @@
   <div class="container">
     <h1>Bulk URL Opener</h1>
 
-    <textarea id="urlBox" placeholder="Paste URLs here, one URL per line..."></textarea>
+    <textarea id="urlBox" placeholder="Paste one URL per line..."></textarea>
 
     <button onclick="generateLinks()">Generate Clickable Links</button>
 
-    <div id="linksContainer" style="margin-top:20px;"></div>
+    <div id="linksContainer"></div>
 
     <div class="note">
       • Paste one URL per line.<br>
-      • Browser may ask permission to allow multiple tabs/popups.<br>
-      • If URL does not contain http/https, https:// will be added automatically.
+      • Click generated links one-by-one to open them.<br>
+      • https:// is added automatically if missing.
     </div>
   </div>
 
@@ -90,8 +109,7 @@
       container.innerHTML = '';
 
       const urls = text
-        .split('
-')
+        .split(/\r?\n/)
         .map(url => url.trim())
         .filter(url => url.length > 0);
 
@@ -110,15 +128,8 @@
         const link = document.createElement('a');
         link.href = finalUrl;
         link.target = '_blank';
-        link.innerText = `Open Link ${index + 1}`;
-
-        link.style.display = 'block';
-        link.style.marginBottom = '10px';
-        link.style.padding = '10px';
-        link.style.background = '#f1f1f1';
-        link.style.borderRadius = '6px';
-        link.style.textDecoration = 'none';
-        link.style.color = '#000';
+        link.className = 'url-link';
+        link.textContent = `Open Link ${index + 1} → ${finalUrl}`;
 
         container.appendChild(link);
       });
