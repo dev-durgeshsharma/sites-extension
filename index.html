@@ -71,7 +71,9 @@
 
     <textarea id="urlBox" placeholder="Paste URLs here, one URL per line..."></textarea>
 
-    <button onclick="openAllUrls()">Open All URLs</button>
+    <button onclick="generateLinks()">Generate Clickable Links</button>
+
+    <div id="linksContainer" style="margin-top:20px;"></div>
 
     <div class="note">
       • Paste one URL per line.<br>
@@ -81,11 +83,15 @@
   </div>
 
   <script>
-    function openAllUrls() {
+    function generateLinks() {
       const text = document.getElementById('urlBox').value;
+      const container = document.getElementById('linksContainer');
+
+      container.innerHTML = '';
 
       const urls = text
-        .split('\n')
+        .split('
+')
         .map(url => url.trim())
         .filter(url => url.length > 0);
 
@@ -94,14 +100,27 @@
         return;
       }
 
-      urls.forEach(url => {
+      urls.forEach((url, index) => {
         let finalUrl = url;
 
         if (!url.startsWith('http://') && !url.startsWith('https://')) {
           finalUrl = 'https://' + url;
         }
 
-        window.open(finalUrl, '_blank');
+        const link = document.createElement('a');
+        link.href = finalUrl;
+        link.target = '_blank';
+        link.innerText = `Open Link ${index + 1}`;
+
+        link.style.display = 'block';
+        link.style.marginBottom = '10px';
+        link.style.padding = '10px';
+        link.style.background = '#f1f1f1';
+        link.style.borderRadius = '6px';
+        link.style.textDecoration = 'none';
+        link.style.color = '#000';
+
+        container.appendChild(link);
       });
     }
   </script>
